@@ -10,9 +10,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "mongodb": "^6.1.0",
+    "mongoose": "^7.6.2",
+    "next": "13.5.4",
+    "octokit": "^3.1.1",
+    "octokit-next": "^1.2.1",
     "dotenv": "^16.3.1",
     "langchain": "^0.0.167",
-    "next": "13.5.4",
     "openai": "^4.12.1",
     "react": "^18",
     "react-dom": "^18"

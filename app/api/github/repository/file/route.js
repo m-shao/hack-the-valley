@@ -17,7 +17,8 @@ export async function GET(req) {
 	const sha = searchParams.get('sha');
 	const fileName = searchParams.get('fileName');
 
-	console.log(repo, owner);
+	console.log("as");
+	console.log(repo, owner, "123");
 
 	try {
 		const { data } = await octokit.request(

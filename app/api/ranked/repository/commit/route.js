@@ -18,7 +18,6 @@ export async function GET(req) {
 	const repo = searchParams.get('repo');
 	const owner = searchParams.get('owner');
 	const username = searchParams.get('username');
-	console.log(repo, owner, username);
 
 	try {
 		const repository = await RepositoryModel.findOne({
@@ -28,16 +27,16 @@ export async function GET(req) {
 
 		if (repository) {
 			const user = repository.users.find((u) => u.username === username);
-			return NextResponse.json(user, { status: 200 });
+			return Response.json(user, { status: 200 });
 		} else {
-			return NextResponse.json(
+			return Response.json(
 				{ message: 'User not found' },
 				{ status: 404 }
 			);
 		}
 	} catch (error) {
 		console.error(error);
-		return NextResponse.json(
+		return Response.json(
 			{ message: 'Internal Server Error' },
 			{ status: 500 }
 		);
@@ -46,21 +45,32 @@ export async function GET(req) {
 
 // export async function PUT(req) {
 // 	const updateData = await req.json();
-// 	const email = updateData.email;
-// 	const achievement = updateData.achievement;
+// 	const owner = updateData.owner;
+// 	const repo = updateData.repo;
+// 	const username = updateData.username;
+// 	const score = updateData.score;
+// 	const message = updateData.message;
+// 	// console.log(message);
+
+// 	// console.log({ owner, repo, username, score, message });
 // 	try {
-// 		await UserModel.findOneAndUpdate(
-// 			{ email: email },
+// 		const res = await RepositoryModel.findOneAndUpdate(
+// 			{ name: repo, owner: owner, 'users.username': username },
 // 			{
 // 				$push: {
-// 					achievements: achievement,
+// 					'users.$.commits': {
+// 						rating: score,
+// 						message: message,
+// 					},
 // 				},
 // 			}
 // 		);
 
-// 		return NextResponse.json({ status: 200 });
+// 		console.log('YOMAMA');
+
+// 		return Response.json({ status: 200 });
 // 	} catch (err) {
-// 		return NextResponse.json(
+// 		return Response.json(
 // 			{ error: 'Internal Server Error' },
 // 			{ status: 500 }
 // 		);

@@ -17,9 +17,6 @@ export async function GET(req) {
 	const sha = searchParams.get('sha');
 	const fileName = searchParams.get('fileName');
 
-	console.log("as");
-	console.log(repo, owner, "123");
-
 	try {
 		const { data } = await octokit.request(
 			'GET /repos/{owner}/{repo}/contents/{fileName}?ref={sha}',
@@ -33,16 +30,16 @@ export async function GET(req) {
 		// console.log(data);
 
 		if (data) {
-			return NextResponse.json(data, { status: 200 });
+			return Response.json(data, { status: 200 });
 		} else {
-			return NextResponse.json(
+			return Response.json(
 				{ message: 'Repository not found' },
 				{ status: 404 }
 			);
 		}
 	} catch (error) {
 		console.error(error);
-		return NextResponse.json(
+		return Response.json(
 			{ message: 'Internal Server Error' },
 			{ status: 500 }
 		);

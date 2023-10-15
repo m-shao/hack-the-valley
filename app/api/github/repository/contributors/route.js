@@ -20,7 +20,7 @@ export async function GET(req) {
 
 	try {
 		const { data } = await octokit.request(
-			'GET /repos/{owner}/{repo}/commits',
+			'GET /repos/{owner}/{repo}/contributors',
 			{
 				owner: owner,
 				repo: repo,
@@ -36,8 +36,7 @@ export async function GET(req) {
 			);
 		}
 	} catch (error) {
-		// console.error(error);
-		console.log('SDLFKJSDLKFJSKLDJFKL:');
+		console.error(error);
 		return Response.json(
 			{ message: 'Internal Server Error' },
 			{ status: 500 }

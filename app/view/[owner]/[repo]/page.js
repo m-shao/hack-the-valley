@@ -154,6 +154,14 @@ const Viewer = () => {
 		fetchStuff();
 	}, []);
 
+	if (!loaded) {
+		return (
+			<div className='w-screen h-screen flex justify-center items-center text-2xl bg-black text-white'>
+				Calculating Ranks...
+			</div>
+		);
+	}
+
 	return (
 		<div className='w-screen h-screen flex overflow-y-hidden bg-black gap-16 p-16'>
 			<div className=' flex-1 bg-black border-4 border-white rounded-lg flex flex-col gap-4 items-center overflow-y-scroll'>

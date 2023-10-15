@@ -9,20 +9,24 @@ export async function GET(req) {
 	const file = searchParams.get('file');
 
 	try {
+		console.log('a');
 		const llm = new OpenAI({
-			openAIApiKey: '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',
+			openAIApiKey: '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',
 			temperature: 0,
 		});
+		console.log('b');
 		const prompt = new PromptTemplate({
 			inputVariables: ['code'],
 			template:
 				"Please rate this code '{code}' out of 10 in terms of quality and explain how could be changed or what is good. Answer Structure: 0/10. I gave this rating because... This code could be improved by... or This code is good because",
 		});
+		console.log('c');
 
 		const chain = new LLMChain({
 			llm: llm,
 			prompt: prompt,
 		});
+		console.log('d');
 
 		let output = await chain.call({
 			code: file,

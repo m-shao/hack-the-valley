@@ -20,7 +20,7 @@ export async function GET(req) {
 
 	try {
 		const { data } = await octokit.request(
-			'GET /repos/{owner}/{repo}/commits',
+			'GET /repos/{owner}/{repo}/contributors',
 			{
 				owner: owner,
 				repo: repo,

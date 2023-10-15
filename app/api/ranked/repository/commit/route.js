@@ -18,7 +18,6 @@ export async function GET(req) {
 	const repo = searchParams.get('repo');
 	const owner = searchParams.get('owner');
 	const username = searchParams.get('username');
-	console.log(repo, owner, username);
 
 	try {
 		const repository = await RepositoryModel.findOne({
@@ -46,17 +45,28 @@ export async function GET(req) {
 
 // export async function PUT(req) {
 // 	const updateData = await req.json();
-// 	const email = updateData.email;
-// 	const achievement = updateData.achievement;
+// 	const owner = updateData.owner;
+// 	const repo = updateData.repo;
+// 	const username = updateData.username;
+// 	const score = updateData.score;
+// 	const message = updateData.message;
+// 	// console.log(message);
+
+// 	// console.log({ owner, repo, username, score, message });
 // 	try {
-// 		await UserModel.findOneAndUpdate(
-// 			{ email: email },
+// 		const res = await RepositoryModel.findOneAndUpdate(
+// 			{ name: repo, owner: owner, 'users.username': username },
 // 			{
 // 				$push: {
-// 					achievements: achievement,
+// 					'users.$.commits': {
+// 						rating: score,
+// 						message: message,
+// 					},
 // 				},
 // 			}
 // 		);
+
+// 		console.log('YOMAMA');
 
 // 		return NextResponse.json({ status: 200 });
 // 	} catch (err) {

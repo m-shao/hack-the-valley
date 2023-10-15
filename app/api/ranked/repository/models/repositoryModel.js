@@ -23,12 +23,10 @@ const repositorySchema = Schema({
 					rating: {
 						type: Number,
 						required: true,
-						unique: true,
 					},
-					messsage: {
+					message: {
 						type: String,
 						required: true,
-						unique: true,
 					},
 				},
 			],

@@ -19,13 +19,10 @@ export async function GET(req) {
 	console.log(repo, owner);
 
 	try {
-		const { data } = await octokit.request(
-			'GET /repos/{owner}/{repo}/commits',
-			{
-				owner: owner,
-				repo: repo,
-			}
-		);
+		const { data } = await octokit.request('GET /repos/{owner}/{repo}', {
+			owner: owner,
+			repo: repo,
+		});
 		// console.log(data);
 
 		if (data) {

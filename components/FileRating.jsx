@@ -30,7 +30,11 @@ async function fetchRateData(file) {
 		const data = await response.json();
 		return data;
 	} catch (error) {
-		console.error(error);
+		const data = {
+			comments: 'the file is too small to be rated',
+			rating: 0,
+		};
+		return data;
 	}
 }
 
@@ -38,20 +42,21 @@ const FileRating = ({ file, owner, repo, sha }) => {
 	const [fileContent, setFileContent] = useState(undefined);
 	const [data, setData] = useState(undefined);
 	const [open, setOpen] = useState(false);
+	const [update, setUpdate] = useState(false);
 
 	useEffect(() => {
-		console.log(fileContent);
 		async function fetchStuff(file) {
 			const data1 = await fetchFileData(owner, repo, sha, file.filename);
 			setFileContent(data1);
-			const rate = await fetchRateData(data1.content);
+			const stringed = atob(data1.content).replaceAll(/\n/g, '\\n');
+			const rate = await fetchRateData(stringed);
 			setData(rate);
 		}
 		fetchStuff(file);
 	}, []);
 
 	useEffect(() => {
-		console.log(data);
+		setUpdate(true);
 	}, [data]);
 
 	if (!open) {
@@ -78,7 +83,7 @@ const FileRating = ({ file, owner, repo, sha }) => {
 	if (!data) {
 		return <div>loading...</div>;
 	}
-	return <div>{data.message}</div>;
+	return <div>{data.comments}</div>;
 };
 
 export default FileRating;

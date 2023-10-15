@@ -113,6 +113,7 @@ const Viewer = () => {
 	const [files, setFiles] = useState([]);
 	const [commits, setCommits] = useState([]);
 	const [contributors, setContributors] = useState([]);
+	const [placers, setPlacers] = useState([]);
 
 	const placement = [
 		{ user: 'user1', score: 1 },
@@ -134,6 +135,7 @@ const Viewer = () => {
 		async function fetchStuff() {
 			const repoData = await fetchRepoData(owner, repoName);
 			const contributors = await fetchContributorData(owner, repoName);
+			console.log(contributors);
 			setContributors(contributors);
 			const commits = [];
 			let commitData = null;
@@ -146,28 +148,10 @@ const Viewer = () => {
 				commits.push(commitData);
 			}
 			setCommits(commits);
-
-			// let files = [];
-			// let fileData = null;
-			// for (let i = 0; i < commits.length; i++) {
-			// 	for (let j = 0; j < commits[i].files.length; j++) {
-			// 		fileData = await fetchFileData(
-			// 			owner,
-			// 			repoName,
-			// 			repoData[i].sha,
-			// 			commits[i].files[j].filename
-			// 		);
-			// 		if (fileData) files.push(fileData);
-			// 	}
-			// }
-			// setFiles(files);
+			console.log(commits);
 			setLoaded(true);
 		}
 		fetchStuff();
-
-		// addCommitData(owner, repoName, 'test', 1, 'sdfljasdfkl;sjkl');
-
-		//update gpt here ______________
 	}, []);
 
 	return (
@@ -185,8 +169,8 @@ const Viewer = () => {
 					<h1 className='text-white font-bold underline'>Points</h1>
 				</div>
 				<div className='flex flex-col gap-4 items-center w-full overflow-y-scroll min-h-full px-8'>
-					{placement
-						.sort((a, b) => b.score - a.score)
+					{placers
+						?.sort((a, b) => b.score - a.score)
 						.map((user, index) => (
 							<div
 								key={user.user}
@@ -206,15 +190,31 @@ const Viewer = () => {
 						))}
 				</div>
 			</div>
-			<div className=' flex-1 border-4 border-white text-white rounded-lg bg-black'>
-				{commits.map((commit) => (
-					<CommitPreview
-						commit={commit}
-						key={commit.sha}
-						repo={repoName}
-						owner={owner}
-					/>
-				))}
+			<div className=' flex-1 border-4 border-white text-white rounded-lg bg-black overflow-y-scroll'>
+				{commits.map((commit) => {
+					let user = commit.author.login;
+					let score = commit.stats.total;
+					// Find the index of the user within the placers array
+					let userIndex = placers.findIndex(
+						(placer) => placer.user === user
+					);
+
+					if (userIndex === -1) {
+						// If the user is not in the placers array, add a new object
+						placers.push({ user, score });
+					} else {
+						// If the user is already in the placers array, update the score
+						placers[userIndex].score += score;
+					}
+					return (
+						<CommitPreview
+							commit={commit}
+							key={commit.sha}
+							repo={repoName}
+							owner={owner}
+						/>
+					);
+				})}
 			</div>
 		</div>
 	);

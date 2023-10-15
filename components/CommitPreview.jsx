@@ -16,7 +16,7 @@ const CommitPreview = ({ commit, repo, owner }) => {
 				onClick={() => {
 					setOpen((prev) => !prev);
 				}}>
-				<div>
+				<div className='flex-1'>
 					<h1 className='text-lg font-medium'>
 						{commit.commit.message}
 					</h1>
@@ -40,7 +40,7 @@ const CommitPreview = ({ commit, repo, owner }) => {
 			{open ? (
 				<div className='text-sm'>
 					{commit.files.map((file, index) => (
-						<div className='flex gap-1 items-center' key={index}>
+						<div className='flex gap-4 items-center' key={index}>
 							{file.filename}
 							<FileRating
 								file={file}

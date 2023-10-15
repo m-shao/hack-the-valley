@@ -11,7 +11,7 @@ export async function GET(req) {
 	try {
 		console.log('a');
 		const llm = new OpenAI({
-			openAIApiKey: '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',
+			openAIApiKey: '',
 			temperature: 0,
 		});
 		console.log('b');

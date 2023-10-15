@@ -10,13 +10,13 @@ export async function GET(req) {
 
 	try {
 		const llm = new OpenAI({
-			openAIApiKey: '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',
+			openAIApiKey: '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',
 			temperature: 0,
 		});
 		const prompt = new PromptTemplate({
 			inputVariables: ['code'],
 			template:
-				"Please rate this code '{code}' out of 10 in terms of quality. Example Answer: 1/10. I gave this rating because...",
+				"Please rate this code '{code}' out of 10 in terms of quality and explain how could be changed or what is good. Answer Structure: 0/10. I gave this rating because... This code could be improved by... or This code is good because",
 		});
 
 		const chain = new LLMChain({
@@ -24,7 +24,7 @@ export async function GET(req) {
 			prompt: prompt,
 		});
 
-		const output = await chain.call({
+		let output = await chain.call({
 			code: file,
 		});
 
@@ -35,7 +35,7 @@ export async function GET(req) {
 
 		if (comments && ratingValue) {
 			return Response.json(
-				{ rating: ratingValue[2], comments: comments },
+				{ rating: 0, comments: output.text },
 				{ status: 200 }
 			);
 		} else {

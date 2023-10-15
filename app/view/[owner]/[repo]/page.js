@@ -55,24 +55,6 @@ async function fetchCommitData(owner, repo, sha) {
 	}
 }
 
-async function fetchFileData(owner, repo, sha, fileName) {
-	try {
-		const response = await fetch(
-			`/api/github/repository/file?owner=${owner}&repo=${repo}&sha=${sha}&fileName=${fileName}`,
-			{
-				method: 'GET',
-			}
-		);
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		const data = await response.json();
-		return data;
-	} catch (error) {
-		console.error(error);
-	}
-}
-
 // async function addCommitData(owner, repo, username, score, message) {
 // 	try {
 // 		const response = await fetch('/api/ranked/repository/commit', {
@@ -153,7 +135,6 @@ const Viewer = () => {
 			const repoData = await fetchRepoData(owner, repoName);
 			const contributors = await fetchContributorData(owner, repoName);
 			setContributors(contributors);
-			console.log(contributors);
 			const commits = [];
 			let commitData = null;
 			for (let i = 0; i < repoData.length; i++) {
@@ -166,22 +147,21 @@ const Viewer = () => {
 			}
 			setCommits(commits);
 
-			let files = [];
-			let fileData = null;
-			for (let i = 0; i < commits.length; i++) {
-				for (let j = 0; j < commits[i].files.length; j++) {
-					fileData = await fetchFileData(
-						owner,
-						repoName,
-						repoData[i].sha,
-						commits[i].files[j].filename
-					);
-					if (fileData) files.push(fileData);
-				}
-			}
-			setFiles(files);
+			// let files = [];
+			// let fileData = null;
+			// for (let i = 0; i < commits.length; i++) {
+			// 	for (let j = 0; j < commits[i].files.length; j++) {
+			// 		fileData = await fetchFileData(
+			// 			owner,
+			// 			repoName,
+			// 			repoData[i].sha,
+			// 			commits[i].files[j].filename
+			// 		);
+			// 		if (fileData) files.push(fileData);
+			// 	}
+			// }
+			// setFiles(files);
 			setLoaded(true);
-			// initData(owner, repoName, 'test', files);
 		}
 		fetchStuff();
 
@@ -227,9 +207,13 @@ const Viewer = () => {
 				</div>
 			</div>
 			<div className=' flex-1 border-4 border-white text-white rounded-lg bg-black'>
-				{console.log(commits)}
 				{commits.map((commit) => (
-					<CommitPreview commit={commit} key={commit.sha} />
+					<CommitPreview
+						commit={commit}
+						key={commit.sha}
+						repo={repoName}
+						owner={owner}
+					/>
 				))}
 			</div>
 		</div>

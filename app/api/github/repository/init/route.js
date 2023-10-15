@@ -32,9 +32,9 @@ export async function PUT(req) {
 			users: [],
 		});
 
-		return NextResponse.json({ status: 200 });
+		return Response.json({ status: 200 });
 	} catch (err) {
-		return NextResponse.json(
+		return Response.json(
 			{ error: 'Internal Server Error' },
 			{ status: 500 }
 		);

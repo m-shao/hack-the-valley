@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const CommitPreview = ({ commit }) => {
+import FileRating from './FileRating';
+
+const CommitPreview = ({ commit, repo, owner }) => {
 	const [open, setOpen] = useState(false);
 	return (
 		<div className='flex flex-col gap-2 border-gray-800 border-b-2 px-4 py-2 '>
@@ -35,7 +37,21 @@ const CommitPreview = ({ commit }) => {
 					/>
 				</Link>
 			</div>
-			{open ? <div className='text-sm'>{console.log(commit)}</div> : null}
+			{open ? (
+				<div className='text-sm'>
+					{commit.files.map((file, index) => (
+						<div className='flex gap-1 items-center' key={index}>
+							{file.filename}
+							<FileRating
+								file={file}
+								repo={repo}
+								owner={owner}
+								sha={commit.sha}
+							/>
+						</div>
+					))}
+				</div>
+			) : null}
 		</div>
 	);
 };

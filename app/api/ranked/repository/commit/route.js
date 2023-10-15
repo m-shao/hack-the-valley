@@ -27,16 +27,16 @@ export async function GET(req) {
 
 		if (repository) {
 			const user = repository.users.find((u) => u.username === username);
-			return NextResponse.json(user, { status: 200 });
+			return Response.json(user, { status: 200 });
 		} else {
-			return NextResponse.json(
+			return Response.json(
 				{ message: 'User not found' },
 				{ status: 404 }
 			);
 		}
 	} catch (error) {
 		console.error(error);
-		return NextResponse.json(
+		return Response.json(
 			{ message: 'Internal Server Error' },
 			{ status: 500 }
 		);
@@ -68,9 +68,9 @@ export async function GET(req) {
 
 // 		console.log('YOMAMA');
 
-// 		return NextResponse.json({ status: 200 });
+// 		return Response.json({ status: 200 });
 // 	} catch (err) {
-// 		return NextResponse.json(
+// 		return Response.json(
 // 			{ error: 'Internal Server Error' },
 // 			{ status: 500 }
 // 		);

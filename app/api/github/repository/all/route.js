@@ -26,16 +26,16 @@ export async function GET(req) {
 		// console.log(data);
 
 		if (data) {
-			return NextResponse.json(data, { status: 200 });
+			return Response.json(data, { status: 200 });
 		} else {
-			return NextResponse.json(
+			return Response.json(
 				{ message: 'Repository not found' },
 				{ status: 404 }
 			);
 		}
 	} catch (error) {
 		console.error(error);
-		return NextResponse.json(
+		return Response.json(
 			{ message: 'Internal Server Error' },
 			{ status: 500 }
 		);
